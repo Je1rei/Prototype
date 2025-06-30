@@ -857,17 +857,6 @@ Transform:
   - {fileID: 1353512248}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &780769892 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 411074575555896661, guid: df313fea54ae6dc42960681f36bd2e8d, type: 3}
-  m_PrefabInstance: {fileID: 9182599071802634165}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6c1d81d5a989da4eb63a23f9a4c758d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1353512247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,7 +1161,6 @@ MonoBehaviour:
   - {fileID: 1548830175704188292}
   - {fileID: 1859808478}
   - {fileID: 1492889617}
-  _scoreManager: {fileID: 780769892}
   _scoreText: {fileID: 2007098850}
 --- !u!1 &1712868111
 GameObject:
@@ -1437,6 +1425,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 411074575555896661, guid: df313fea54ae6dc42960681f36bd2e8d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1621039868572942546, guid: df313fea54ae6dc42960681f36bd2e8d, type: 3}
       propertyPath: m_Name
       value: ScoreManager

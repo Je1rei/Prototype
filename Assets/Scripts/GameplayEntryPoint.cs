@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -6,14 +7,23 @@ public class GameplayEntryPoint : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerMovement _player;
     [SerializeField] private Coin[] _coins;
-    [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private TextMeshProUGUI _scoreText;
-    
-    private void Start()
-    {
-        ServiceLocator.Register(_player);
-        ServiceLocator.Register(_scoreManager);
 
+    private ServiceLocator _serviceLocator;
+    private ScoreManager _scoreManager;
+
+    private void Awake()
+    {
+        _serviceLocator = ServiceLocator.Current;
+
+        Compose();
+    }
+    
+    private void Compose()
+    {
+        _scoreManager = _serviceLocator.Get<ScoreManager>();
+        _scoreManager.Init(_scoreText);
+        
         _player.Init();
         
         foreach (var coin in _coins)
@@ -21,12 +31,6 @@ public class GameplayEntryPoint : MonoBehaviour
             coin.Init();
         }
         
-        _scoreManager.Init();
         Debug.Log("Gameplay initialized!");
-    }
-
-    private void OnDestroy()
-    {
-        ServiceLocator.Clear();
     }
 }

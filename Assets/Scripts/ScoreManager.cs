@@ -1,21 +1,18 @@
 using UnityEngine;
 using TMPro;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : MonoBehaviour, ServiceLocator.IService
 {
-    [SerializeField] private TextMeshProUGUI _coinsText;
+    private TextMeshProUGUI _coinsText;
     private int _currentCoins;
 
-    private void Awake()
+    public void Init(TextMeshProUGUI coinsText)
     {
-        ServiceLocator.Register<ScoreManager>(this);
+        _coinsText = coinsText;
+        _currentCoins = 0;
+        UpdateUI();
     }
-
-    private void OnDestroy()
-    {
-        ServiceLocator.Unregister<ScoreManager>();
-    }
-
+    
     public void AddCoins(int amount)
     {
         _currentCoins += amount;
@@ -29,12 +26,6 @@ public class ScoreManager : MonoBehaviour
     }
 
     public void ResetScore()
-    {
-        _currentCoins = 0;
-        UpdateUI();
-    }
-
-    public void Init()
     {
         _currentCoins = 0;
         UpdateUI();

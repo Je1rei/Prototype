@@ -67,7 +67,7 @@ public class Coin : MonoBehaviour
         _collectSequence.Join(transform.DOScale(0, _collectAnimDuration));
         _collectSequence.OnComplete(() => 
         {
-            var scoreManager = ServiceLocator.Get<ScoreManager>();
+            var scoreManager = ServiceLocator.Current.Get<ScoreManager>(); // TODO REPLACE 
             scoreManager?.AddCoins(_value);
         
             if (effectInstance != null)
