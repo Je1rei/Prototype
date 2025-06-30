@@ -3,21 +3,17 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance { get; private set; }
-
     [SerializeField] private TextMeshProUGUI _coinsText;
     private int _currentCoins;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        ServiceLocator.Register<ScoreManager>(this);
+    }
+
+    private void OnDestroy()
+    {
+        ServiceLocator.Unregister<ScoreManager>();
     }
 
     public void AddCoins(int amount)
@@ -37,6 +33,7 @@ public class ScoreManager : MonoBehaviour
         _currentCoins = 0;
         UpdateUI();
     }
+
     public void Init()
     {
         _currentCoins = 0;

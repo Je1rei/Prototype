@@ -11,6 +11,9 @@ public class GameplayEntryPoint : MonoBehaviour
     
     private void Start()
     {
+        ServiceLocator.Register(_player);
+        ServiceLocator.Register(_scoreManager);
+
         _player.Init();
         
         foreach (var coin in _coins)
@@ -20,5 +23,10 @@ public class GameplayEntryPoint : MonoBehaviour
         
         _scoreManager.Init();
         Debug.Log("Gameplay initialized!");
+    }
+
+    private void OnDestroy()
+    {
+        ServiceLocator.Clear();
     }
 }
