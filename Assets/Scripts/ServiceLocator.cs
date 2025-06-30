@@ -2,47 +2,52 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public static class ServiceLocator
+public class ServiceLocator
 {
-    private static readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
+    private readonly Dictionary<Type, IService> _services = new();
 
-    public static void Register<T>(T service) where T : class
+    public ServiceLocator()
     {
-        var type = typeof(T);
-        if (_services.ContainsKey(type))
+        Current = this;
+    }
+
+    public static ServiceLocator Current { get; private set; }
+
+    public void Register<TService>(TService service) where TService : IService
+    {
+        if (_services.ContainsKey(typeof(IService)))
         {
-            Debug.LogWarning($"Service {type.Name} already registered. Overriding.");
-            _services[type] = service;
+            Debug.LogWarning($"Service {typeof(TService).Name} already registered. Overriding.");
         }
         else
         {
-            _services.Add(type, service);
+            _services[typeof(TService)] = service;
         }
     }
 
-    public static T Get<T>() where T : class
+    public TService Get<TService>() where TService : IService
     {
-        var type = typeof(T);
-        if (_services.TryGetValue(type, out var service))
+        if (_services.TryGetValue(typeof(TService), out var service))
         {
-            return (T)service;
+            return (TService)service;
         }
 
-        Debug.LogError($"Service {type.Name} not found!");
-        return null;
+        throw new Exception($"Service {typeof(TService).Name} does not exist.");
     }
 
-    public static void Unregister<T>() where T : class
+    public void Unregister<TService>() where TService : IService
     {
-        var type = typeof(T);
-        if (_services.ContainsKey(type))
-        {
-            _services.Remove(type);
-        }
+        var type = typeof(TService);
+
+        _services.Remove(type);
     }
 
-    public static void Clear()
+    public void Clear()
     {
         _services.Clear();
+    }
+
+    public interface IService
+    {
     }
 }
