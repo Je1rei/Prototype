@@ -3,31 +3,18 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour, ServiceLocator.IService
 {
-    private TextMeshProUGUI _coinsText;
-    private int _currentCoins;
+    private TextMeshProUGUI _scoreText;
+    private int _currentScore;
 
-    public void Init(TextMeshProUGUI coinsText)
+    public void Init(TextMeshProUGUI scoreText, CoinCollector collector)
     {
-        _coinsText = coinsText;
-        _currentCoins = 0;
-        UpdateUI();
-    }
-    
-    public void AddCoins(int amount)
-    {
-        _currentCoins += amount;
-        UpdateUI();
+        _scoreText = scoreText;
+        collector.OnCoinCollected += AddCoins;
     }
 
-    private void UpdateUI()
+    private void AddCoins(int amount)
     {
-        if (_coinsText != null)
-            _coinsText.text = $"Score: {_currentCoins}";
-    }
-
-    public void ResetScore()
-    {
-        _currentCoins = 0;
-        UpdateUI();
+        _currentScore += amount;
+        _scoreText.text = $"Score: {_currentScore}";
     }
 }

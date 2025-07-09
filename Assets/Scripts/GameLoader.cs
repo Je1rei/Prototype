@@ -4,13 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class GameLoader : MonoBehaviour
 {
-    [SerializeField] private ScoreManager _scoreManager;
+    private ScoreManager _scoreManager;
+    private CoinCollector _coinCollector;
 
     private ServiceLocator _serviceLocator;
 
     private void Awake()
     {
         _serviceLocator = new ServiceLocator();
+        _scoreManager = new ScoreManager();
+        _coinCollector = new CoinCollector();
 
         RegisterServices();
         DontDestroyOnLoad(gameObject);
@@ -30,12 +33,13 @@ public class GameLoader : MonoBehaviour
         }
 
         Debug.Log("Done!");
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene(1);
     }
 
     private void RegisterServices()
     {
         // Регистрация сервисов
         _serviceLocator.Register(_scoreManager);
+        _serviceLocator.Register(_coinCollector);
     }
 }

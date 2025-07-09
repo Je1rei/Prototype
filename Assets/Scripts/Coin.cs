@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 [RequireComponent(typeof(Collider))]
 public class Coin : MonoBehaviour
@@ -11,6 +12,8 @@ public class Coin : MonoBehaviour
     [SerializeField] private float _collectJumpHeight = 1.5f;
     [SerializeField] private ParticleSystem _collectEffect;
 
+    public event Action<int> OnCollected;
+    
     private Collider _collider;
     private Tweener _rotationTween;
     private Sequence _collectSequence;
@@ -67,9 +70,8 @@ public class Coin : MonoBehaviour
         _collectSequence.Join(transform.DOScale(0, _collectAnimDuration));
         _collectSequence.OnComplete(() => 
         {
-            var scoreManager = ServiceLocator.Current.Get<ScoreManager>(); // TODO REPLACE 
-            scoreManager?.AddCoins(_value);
-        
+            OnCollected?.Invoke(_value);
+            
             if (effectInstance != null)
                 Destroy(effectInstance.gameObject, effectInstance.main.duration);
             

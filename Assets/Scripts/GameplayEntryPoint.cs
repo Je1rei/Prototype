@@ -21,14 +21,14 @@ public class GameplayEntryPoint : MonoBehaviour
     
     private void Compose()
     {
-        _scoreManager = _serviceLocator.Get<ScoreManager>();
-        _scoreManager.Init(_scoreText);
+        var collector = ServiceLocator.Current.Get<CoinCollector>();
+        var scoreManager = ServiceLocator.Current.Get<ScoreManager>();
         
-        _player.Init();
+        scoreManager.Init(_scoreText, collector);
         
         foreach (var coin in _coins)
         {
-            coin.Init();
+            collector.RegisterCoin(coin);
         }
         
         Debug.Log("Gameplay initialized!");

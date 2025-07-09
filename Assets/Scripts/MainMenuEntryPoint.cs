@@ -23,11 +23,9 @@ public class MainMenuEntryPoint : MonoBehaviour
     
     private void Start()
     {
-        Debug.Log(_scoreManager.name);
-        
         _startButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("Gameplay");
+            SceneManager.LoadScene(2);
         });
 
         Debug.Log("All Main Menu Services loaded!");
